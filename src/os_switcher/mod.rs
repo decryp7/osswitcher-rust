@@ -9,11 +9,11 @@ use regex::Regex;
 
 #[derive(Debug)]
 pub struct OS {
-    pub identifier : String,
+    pub identifier: String,
     pub device: String,
     pub path: String,
     pub description: String,
-    pub locale: String
+    pub locale: String,
 }
 
 impl OS {
@@ -23,7 +23,7 @@ impl OS {
             device: "".to_string(),
             path: "".to_string(),
             description: "".to_string(),
-            locale: "".to_string()
+            locale: "".to_string(),
         }
     }
 }
@@ -40,15 +40,14 @@ pub struct BCDOSSwitcher {
 impl BCDOSSwitcher {
     pub fn new() -> BCDOSSwitcher {
         BCDOSSwitcher {
-            os_options: HashMap::new()
+            os_options: HashMap::new(),
         }
     }
 
     fn parse_os(os_string: &str) -> OS {
         let properties = os_string.split("\r\n");
         let mut property_values: HashMap<&str, &str> = HashMap::new();
-        for property in properties
-        {
+        for property in properties {
             //println!("{}", property);
             let mut property_value = property.split_whitespace();
             let key = property_value.next().unwrap_or("");
@@ -61,7 +60,7 @@ impl BCDOSSwitcher {
             device: property_values.get("device").unwrap().to_string(),
             path: property_values.get("path").unwrap().to_string(),
             description: property_values.get("description").unwrap().to_string(),
-            locale: property_values.get("locale").unwrap().to_string()
+            locale: property_values.get("locale").unwrap().to_string(),
         }
     }
 }
@@ -79,12 +78,11 @@ impl OSSwitcher for BCDOSSwitcher {
 
         let regex = Regex::new(r"(?mi)^\{[0-9a-f]{8}-([0-9a-f]{4}\-){3}[0-9a-f]{12}\}$").unwrap();
         let mut count = 0;
-        for os_string in os_strings
-        {
+        for os_string in os_strings {
             let os = BCDOSSwitcher::parse_os(os_string);
             if regex.is_match(&os.identifier) {
-            //println!("{:?}", os);
-                count = count +1;
+                //println!("{:?}", os);
+                count = count + 1;
                 self.os_options.insert(count, os);
             }
         }
@@ -93,7 +91,7 @@ impl OSSwitcher for BCDOSSwitcher {
     }
 
     fn switch_os(&self, option: u32) -> Result<(), Box<dyn Error>> {
-        if !self.os_options.contains_key(&option){
+        if !self.os_options.contains_key(&option) {
             Err("The choice is invalid")?
         }
 
@@ -110,7 +108,13 @@ impl OSSwitcher for BCDOSSwitcher {
             .arg(&self.os_options[&option].identifier)
             .stdout(Stdio::inherit())
             .output()
-            .expect(format!("Failed to run bcdedit /default {}", self.os_options[&option].identifier).as_str());
+            .expect(
+                format!(
+                    "Failed to run bcdedit /default {}",
+                    self.os_options[&option].identifier
+                )
+                .as_str(),
+            );
 
         Command::new("shutdown")
             .arg("-r")
