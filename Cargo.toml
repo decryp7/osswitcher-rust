@@ -1,0 +1,19 @@
+[package]
+name = "bcd_wmi"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+#wmi = "0.12.1"
+regex = "1.7.3"
+itertools = "0.10.5"
+
+[package.metadata.winres]
+OriginalFilename = "bcd_wmi.exe"
+FileDescription = "⛄❤☕"
+LegalCopyright = "Copyright © 2023"
+
+[build-dependencies]
+winres = "0.1.12"
