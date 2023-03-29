@@ -1,10 +1,7 @@
 use std::collections::HashMap;
 use std::error::Error;
-use std::ffi::OsString;
-use std::io;
 use std::process::{Command, Stdio};
 
-use itertools::Itertools;
 use regex::Regex;
 
 #[derive(Debug)]
@@ -17,15 +14,15 @@ pub struct OS {
 }
 
 impl OS {
-    fn new() -> OS {
-        OS {
-            identifier: "".to_string(),
-            device: "".to_string(),
-            path: "".to_string(),
-            description: "".to_string(),
-            locale: "".to_string(),
-        }
-    }
+    // fn new() -> OS {
+    //     OS {
+    //         identifier: "".to_string(),
+    //         device: "".to_string(),
+    //         path: "".to_string(),
+    //         description: "".to_string(),
+    //         locale: "".to_string(),
+    //     }
+    // }
 }
 
 pub trait OSSwitcher {

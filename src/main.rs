@@ -1,12 +1,10 @@
 use std::collections::HashMap;
 use std::error::Error;
-use std::ffi::OsString;
 use std::io;
-use std::process::Command;
 
 use itertools::Itertools;
+
 use os_switcher::*;
-use regex::Regex;
 
 pub mod os_switcher;
 
@@ -40,7 +38,7 @@ fn get_user_os_choice(os_selections: &HashMap<u32, OS>) -> Result<u32, Box<dyn E
     let mut choice: u32 = 0;
     match input.trim().parse::<u32>() {
         Ok(user_choice) => choice = user_choice,
-        Err(err) => Err("The choice is invalid")?,
+        Err(_err) => Err("The choice is invalid")?,
     }
 
     return if os_selections.contains_key(&choice) {
