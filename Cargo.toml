@@ -8,7 +8,7 @@ edition = "2021"
 [dependencies]
 #wmi = "0.12.1"
 regex = "1.10.6"
-itertools = "0.13.0"
+itertools = "0.14.0"
 
 [package.metadata.winres]
 OriginalFilename = "bcd_wmi.exe"
